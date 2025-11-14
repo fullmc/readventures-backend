@@ -14,16 +14,9 @@ datasource db {
 }
 
 model User {
-<<<<<<< HEAD
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-=======
   id           Int      @id @default(autoincrement())
   email        String   @unique
   password     String?
   authProvider String   @default("LOCAL")
   createdAt    DateTime @default(now())
->>>>>>> 238213b (feat(auth): add google auth (#2))
 }

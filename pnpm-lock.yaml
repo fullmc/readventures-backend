@@ -26,15 +26,12 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.2
         version: 9.0.2
-<<<<<<< HEAD
-=======
       passport:
         specifier: ^0.7.0
         version: 0.7.0
       passport-google-oauth20:
         specifier: ^2.0.0
         version: 2.0.0
->>>>>>> 238213b (feat(auth): add google auth (#2))
     devDependencies:
       '@types/bcrypt':
         specifier: ^6.0.0
@@ -211,13 +208,10 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-<<<<<<< HEAD
-=======
   base64url@3.0.1:
     resolution: {integrity: sha512-ir1UPr3dkwexU7FdV8qBBbNDRUhMmIekYMFZfi+C/sLNnRESKPl23nB9b2pltqfOQNnGzsDdId90AEtG5tCx4A==}
     engines: {node: '>=6.0.0'}
 
->>>>>>> 238213b (feat(auth): add google auth (#2))
   bcrypt@6.0.0:
     resolution: {integrity: sha512-cU8v/EGSrnH+HnxV2z0J7/blxH8gq7Xh2JFT6Aroax7UohdmiJJlxApMxtKfuI7z68NvvVcmR78k2LbT6efhRg==}
     engines: {node: '>= 18'}
@@ -1032,11 +1026,8 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-<<<<<<< HEAD
-=======
   base64url@3.0.1: {}
 
->>>>>>> 238213b (feat(auth): add google auth (#2))
   bcrypt@6.0.0:
     dependencies:
       node-addon-api: 8.5.0
