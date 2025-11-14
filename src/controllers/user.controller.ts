@@ -34,9 +34,20 @@ export const signupUser = async (req: Request, res: Response) => {
       },
     });
 
+    // Token generated
+    const token = jwt.sign(
+      { userId: newUser.id },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "7d" }
+    );
+
     return res.status(201).json({
       message: "User created successfully",
-      user: { id: newUser.id, email: newUser.email },
+      token,
+      user: {
+        id: newUser.id,
+        email: newUser.email,
+      },
     });
 
   } catch (error) {
