@@ -9,7 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Route test pour vérifier que tout fonctionne
+// Routes
+import userRoutes from "./routes/user.routes";
+app.use("/api/auth", userRoutes);
+
 app.get("/", (req, res) => {
   res.send("Backend is running! 🚀");
 });
