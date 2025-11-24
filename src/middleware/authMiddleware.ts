@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined. Please set it in the environment.");
+}
+
 export interface AuthRequest extends Request {
   userId?: number;
 }
@@ -23,7 +29,7 @@ export const authMiddleware = (
       return res.status(401).json({ message: "Invalid token format" });
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+    const decoded = jwt.verify(token, JWT_SECRET) as {
       userId: number;
     };
 

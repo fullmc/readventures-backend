@@ -7,7 +7,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      callbackURL: "http://localhost:3000/api/auth/google/callback",
+      callbackURL: process.env.GOOGLE_CALLBACK,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
@@ -15,18 +15,18 @@ passport.use(
 
         if (!email) return done(new Error("No email found"), undefined);
 
-        // Vérifier si l'utilisateur existe
+        // Check if user exists
         let user = await prisma.user.findUnique({
           where: { email },
         });
 
-        // Sinon, créer un nouveau user
+        // Otherwise, create new user
         if (!user) {
           user = await prisma.user.create({
             data: {
               email,
               authProvider: "GOOGLE",
-              
+
             },
           });
         }

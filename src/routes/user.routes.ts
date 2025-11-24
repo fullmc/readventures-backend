@@ -7,6 +7,13 @@ import jwt from "jsonwebtoken";
 
 
 const router = Router();
+const frontend = process.env.FRONTEND_URL;
+const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not defined. Please set it in the environment.");
+}
+
 
 // POST /signup
 router.post("/signup", signupUser);
@@ -30,12 +37,12 @@ router.get(
 
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET!,
+      JWT_SECRET,
       { expiresIn: "7d" }
     );
 
     // redirect to frontend with token 
-    res.redirect(`http://localhost:5173?token=${token}`);
+    res.redirect(`${frontend}?token=${token}`);
   }
 );
 
