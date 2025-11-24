@@ -68,7 +68,11 @@ export const loginUser = async (req: Request, res: Response) => {
       where: { email },
     });
 
+<<<<<<< HEAD
     if (!user) {
+=======
+    if (!user || !user.password) {
+>>>>>>> 238213b (feat(auth): add google auth (#2))
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
