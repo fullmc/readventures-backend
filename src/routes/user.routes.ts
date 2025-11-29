@@ -52,7 +52,7 @@ router.patch("/theme", authMiddleware, async (req: AuthRequest, res: Response) =
     const { theme } = req.body;
 
     if (!req.userId) {
-      return res.status(401).json({ error: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized" });
     }
 
     // Theme validation
