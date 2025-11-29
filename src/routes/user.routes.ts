@@ -55,7 +55,7 @@ router.patch("/theme", authMiddleware, async (req: AuthRequest, res: Response) =
       return res.status(401).json({ error: "Unauthorized" });
     }
 
-    // Validation du thème
+    // Theme validation
     if (!theme || (theme !== "light" && theme !== "dark")) {
       return res.status(400).json({ 
         error: "Invalid theme. Theme must be 'light' or 'dark'" 
