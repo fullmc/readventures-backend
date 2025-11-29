@@ -103,10 +103,6 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const getMe = async (req: AuthRequest, res: Response) => {
   try {
-    if (!req.userId) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
     const user = await prisma.user.findUnique({
       where: { id: req.userId },
     });
@@ -125,6 +121,36 @@ export const getMe = async (req: AuthRequest, res: Response) => {
   } catch (error) {
     console.error("Error in getMe:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const updateTheme = async (req: AuthRequest, res: Response) => {
+  try {
+    const { theme } = req.body;
+
+    if (!req.userId) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+
+    if (!theme || (theme !== "light" && theme !== "dark")) {
+      return res.status(400).json({
+        message: "Invalid theme. Theme must be 'light' or 'dark'",
+      });
+    }
+
+    const updated = await prisma.user.update({
+      where: { id: req.userId },
+      data: { theme },
+    });
+
+    return res.json({
+      success: true,
+      theme: updated.theme,
+      message: "Theme updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating theme:", error);
+    return res.status(500).json({ message: "Failed to update theme" });
   }
 };
 
