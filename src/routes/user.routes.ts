@@ -1,7 +1,6 @@
 import { Router } from "express";
-import { signupUser, loginUser } from "../controllers/user.controller";
+import { signupUser, loginUser, getMe, updateTheme } from "../controllers/user.controller";
 import { authMiddleware } from "../middleware/authMiddleware";
-import { getMe } from "../controllers/user.controller";
 import passport from "../config/passport";
 import jwt from "jsonwebtoken";
 
@@ -45,6 +44,8 @@ router.get(
     res.redirect(`${frontend}?token=${token}`);
   }
 );
+
+router.patch("/theme", authMiddleware, updateTheme);
 
 
 export default router;

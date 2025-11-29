@@ -19,4 +19,5 @@ model User {
   password     String?
   authProvider String   @default("LOCAL")
   createdAt    DateTime @default(now())
+  theme        String   @default("light")
 }
