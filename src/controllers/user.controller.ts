@@ -3,6 +3,9 @@ import prisma from "../config/prisma";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { AuthRequest } from "../middleware/authMiddleware";
+import crypto from "crypto";
+import sendEmail from "../utils/email";
+import * as passwordService from "../services/password.service";
 
 
 export const signupUser = async (req: Request, res: Response) => {
@@ -151,6 +154,56 @@ export const updateTheme = async (req: AuthRequest, res: Response) => {
   } catch (error) {
     console.error("Error updating theme:", error);
     return res.status(500).json({ message: "Failed to update theme" });
+  }
+};
+
+export const requestPasswordReset = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      // Do not reveal that the email does not exist
+      return res.status(200).json({ message: "Email envoyé." });
+    }
+
+    const resetToken = await passwordService.generateResetToken(user.id);
+
+    const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
+
+    await sendEmail({
+      to: email,
+      subject: "Réinitialisation du mot de passe",
+      text: `Clique sur ce lien pour réinitialiser ton mot de passe : ${resetUrl}`,
+    });
+
+    return res.status(200).json({ message: "Email envoyé !" });
+  } catch (error) {
+    console.error("requestPasswordReset error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+export const resetPassword = async (req: Request, res: Response) => {
+  try {
+    const { token, password } = req.body;
+    if (!token || !password) return res.status(400).json({ message: "Token and password are required" });
+
+    const record = await passwordService.verifyResetToken(token);
+    if (!record) return res.status(400).json({ message: "Invalid or expired token" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.update({ where: { id: record.userId }, data: { password: hashedPassword } });
+
+    // remove token
+    await passwordService.deleteResetToken(record.id);
+
+    return res.status(200).json({ message: "Mot de passe mis à jour" });
+  } catch (error) {
+    console.error("resetPassword error:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 

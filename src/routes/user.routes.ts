@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { signupUser, loginUser, getMe, updateTheme } from "../controllers/user.controller";
+import { signupUser, loginUser, getMe, updateTheme, requestPasswordReset, resetPassword } from "../controllers/user.controller";
 import { authMiddleware } from "../middleware/authMiddleware";
 import passport from "../config/passport";
 import jwt from "jsonwebtoken";
@@ -46,6 +46,11 @@ router.get(
 );
 
 router.patch("/theme", authMiddleware, updateTheme);
+
+// case of forgotten password
+router.post("/forgotten-password", requestPasswordReset);
+router.post("/reset-password", resetPassword);
+
 
 
 export default router;
