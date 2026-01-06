@@ -12,7 +12,7 @@ app.use(cors({
   // nice practice for CORS settings : it allows only specific origins
   origin: [
     process.env.FRONTEND_URL || 'http://localhost:5173',
-    'https://readventures-int.vercel.app/', // Vercel domain for staging (preprod)
+    'https://readventures-int.vercel.app', // Vercel domain for staging (preprod)
     /\.vercel\.app$/ // Allow all Vercel subdomains
   ],
   credentials: true
